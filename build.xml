@@ -1,0 +1,90 @@
+<project name="VBConversion" basedir="." default="run">  
+<!-- properties for location of directories and files used in build -->  
+
+<property name="src.dir" value="src"/> 
+<property name="parser_src.dir" value="${src.dir}/com/hcl/atcf/converter/parsers"/>
+<property name="resources.dir" value="resources_fc"/> 
+<property name="app.name" value="b300"/> 
+<property name="company.name" value="allianz"/> 
+
+<property name="antlr.dir" value="lib" /> 
+<property name="grammar.dir" value="grammar"/>  
+<property name="form_grammar_file" value="${grammar.dir}/VBForm.g"/>
+<property name="module_grammar_file" value="${grammar.dir}/VBModule.g"/>
+<property name="controller_grammar_file" value="${grammar.dir}/VBFormController.g"/>
+<property name="build.dir" value="bin"/>  
+<property name="classes.dir" value="${build.dir}/classes"/>
+
+ <!-- Path settings used for classpath and execution -->  
+<path id="classpath">  
+  
+    <fileset dir="${antlr.dir}">  
+        <include name="antlr-3.5.1-complete.jar"/> 
+        <include name="guava-12.0.jar"/> 
+        <include name="javaparser-1.0.8.jar"/> 
+            <include name="org.eclipse.core.contenttype_3.4.1.R35x_v20090826-0451.jar"/>
+            <include name="org.eclipse.core.jobs_3.4.100.v20090429-1800.jar"/>
+            <include name="org.eclipse.core.resources_3.5.2.R35x_v20091203-1235.jar"/>
+            <include name="org.eclipse.core.runtime_3.5.0.v20090525.jar"/>
+            <include name="org.eclipse.equinox.common_3.5.1.R35x_v20090807-1100.jar"/>
+            <include name="org.eclipse.equinox.preferences_3.2.301.R35x_v20091117.jar"/>
+            <include name="org.eclipse.jdt.core_3.5.2.v_981_R35x.jar"/>
+            <include name="org.eclipse.osgi_3.5.2.R35x_v20100126.jar"/>
+            <include name="org.eclipse.text_3.5.101.v20110928-1504.jar"/>
+    </fileset>  
+    <pathelement location="${classes.dir}"/>  
+</path>  
+
+<!-- build targets for cleaning before build, antlr code generation, javac compilation --> 
+
+
+<target name="deletegenfiles">  
+    <delete dir="${parser_src.dir}"/>  
+</target>  
+
+<target name="deleteclassesdir">  
+    <delete dir="${classes.dir}"/>  
+</target> 
+
+<target name="deleteoutputdir">  
+    <delete dir="${output.dir}"/>  
+</target> 
+
+
+<target name="generatefiles" depends="deleteclassesdir,genlp">
+</target>
+
+<target name="genlp" >
+    <echo message="Generating lexers and parsers...."/>
+    <java classname="org.antlr.Tool" fork="yes" maxmemory="2048m">
+        <arg value="-o"/> 
+        <arg value="${parser_src.dir}"/> 
+        <arg value="${module_grammar_file}" /> 
+        <arg value="${form_grammar_file}" /> 
+    <classpath refid="classpath"/>
+    </java>
+</target>
+
+<target name="compile_java_files">  
+    <mkdir dir="${classes.dir}"/> 
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeAntRuntime="false">            
+        <classpath refid="classpath"/>  
+    </javac>  
+</target>
+
+
+<target name="compile" depends="compile_java_files">  
+</target> 
+
+
+<target name="run" depends="compile">
+    <echo message="Generating converted files...."/>
+    <java classname="com.hcl.atcf.converter.processor.TranslationProcessor" fork="yes" maxmemory="512m">
+        <arg line="${resources.dir} ${app.name} ${company.name} vb" />   
+        <classpath refid="classpath"> </classpath>
+    </java>
+    
+</target>   
+    
+    
+</project>

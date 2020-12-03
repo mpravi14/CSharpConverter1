@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/antlr-3.4-complete.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/antlr-4.0-complete.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/guava.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/javaparser.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/org.eclipse.core.runtime-3.7.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/org.eclipse.jdt.core_3.2.0.v_671.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Praveen/Downloads/Compressed/org.eclipse.text_3.5.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
